@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="weather-bg"></div>
+    <header class="weather-header">
+        <div class="logo">Weather Forecast</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Application</a>
+        </nav>
+        <div class="header-info">
+            <span id="currentTime"></span>
+            <span id="currentDate"></span>
+        </div>
+    </header>
+    <main class="weather-main">
+        <form class="search-bar" id="searchForm">
+            <input type="text" id="cityInput" placeholder="Search city..." required>
+            <button type="submit" aria-label="Search"><span>&#128269;</span></button>
+        </form>
+        <section class="weather-summary" id="weatherSummary">
+            <div class="weather-status">
+                <h1 id="mainStatus"></h1>
+                <h2 id="subStatus"></h2>
+                <p id="weatherDetails"></p>
+            </div>
+            <div class="weather-cloud">
+                <img src="cloud.png" alt="Cloud" id="weatherIcon"/>
+            </div>
+            <div class="weather-temp-main">
+                <span id="mainTemp"></span>
+                <div class="temp-details">
+                    <span id="wind"></span>
+                    <span id="uv"></span>
+                    <span id="location"></span>
+                </div>
+            </div>
+        </section>
+        <section class="weather-extra">
+            <div class="humidity">
+                <span>Humidity</span>
+                <span id="humidity"></span>
+            </div>
+            <div class="other-cities" id="otherCities"></div>
+        </section>
+        <section class="weather-graph">
+            <canvas id="tempGraph"></canvas>
+            <div class="graph-labels" id="graphLabels"></div>
+        </section>
+        <div id="errorMsg" class="error-msg" style="display:none;"></div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="weather.js"></script>
+</body>
+</html>

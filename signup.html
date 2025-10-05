@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #7b2ff2 0%, #f357a8 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .signup-box {
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            border-radius: 18px;
+            max-width: 400px;
+            margin: 7rem auto 0 auto;
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .signup-box h2 {
+            color: #FFD700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px #fff700, 0 0 20px #ffd700;
+        }
+        .signup-box label {
+            color: #fff;
+            margin-top: 1rem;
+            margin-bottom: 0.3rem;
+            align-self: flex-start;
+        }
+        .signup-box input {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 0.7rem;
+            font-size: 1rem;
+        }
+        .password-check {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            width: 100%;
+        }
+        .password-check span {
+            display: block;
+            margin-bottom: 2px;
+        }
+        .btn-signup {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            background: #ccc;
+            color: #fff;
+            cursor: not-allowed;
+            transition: background 0.3s;
+            margin-top: 0.7rem;
+        }
+        .btn-signup.active {
+            background: #28a745;
+            cursor: pointer;
+        }
+        .security-code {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 0.7rem;
+            background: rgba(123,47,242,0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <label for="username">User Name</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="password-check" id="passwordCheck">
+                <span id="check-upper">• Uppercase letter</span>
+                <span id="check-lower">• Lowercase letter</span>
+                <span id="check-number">• Number</span>
+                <span id="check-symbol">• Symbol</span>
+            </div>
+
+            <label for="security">Security Code</label>
+            <div class="security-code" id="securityCode"></div>
+            <input type="text" id="securityInput" name="security" required placeholder="Enter security code">
+
+            <button type="submit" class="btn-signup" id="signupBtn" disabled>Sign Up</button>
+        </form>
+    </div>
+    <script>
+        // Generate random security code
+        function generateCode(length = 6) {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < length; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        const securityCode = document.getElementById('securityCode');
+        let currentCode = generateCode();
+        securityCode.textContent = currentCode;
+
+        // Password strength check
+        const passwordInput = document.getElementById('password');
+        const checkUpper = document.getElementById('check-upper');
+        const checkLower = document.getElementById('check-lower');
+        const checkNumber = document.getElementById('check-number');
+        const checkSymbol = document.getElementById('check-symbol');
+        const signupBtn = document.getElementById('signupBtn');
+        const securityInput = document.getElementById('securityInput');
+
+        function validatePassword(pw) {
+            return {
+                upper: /[A-Z]/.test(pw),
+                lower: /[a-z]/.test(pw),
+                number: /[0-9]/.test(pw),
+                symbol: /[^A-Za-z0-9]/.test(pw)
+            };
+        }
+
+        function updatePasswordCheck() {
+            const pw = passwordInput.value;
+            const valid = validatePassword(pw);
+
+            checkUpper.style.color = valid.upper ? '#28a745' : '#fff';
+            checkLower.style.color = valid.lower ? '#28a745' : '#fff';
+            checkNumber.style.color = valid.number ? '#28a745' : '#fff';
+            checkSymbol.style.color = valid.symbol ? '#28a745' : '#fff';
+
+            // Enable button only if all are valid and security code matches
+            const allValid = valid.upper && valid.lower && valid.number && valid.symbol;
+            const codeValid = securityInput.value.trim().toUpperCase() === currentCode;
+            if (allValid && codeValid) {
+                signupBtn.classList.add('active');
+                signupBtn.disabled = false;
+            } else {
+                signupBtn.classList.remove('active');
+                signupBtn.disabled = true;
+            }
+        }
+
+        passwordInput.addEventListener('input', updatePasswordCheck);
+        securityInput.addEventListener('input', updatePasswordCheck);
+
+        // On submit, show success and redirect
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Sign up successful!');
+            window.location.href = '../index.html';
+        });
+
+        // Refresh security code on page load
+        securityCode.addEventListener('click', function() {
+            currentCode = generateCode();
+            securityCode.textContent = currentCode;
+            updatePasswordCheck();
+        });
+    </script>
+</body>
+</html>

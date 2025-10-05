@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #7b2ff2 0%, #f357a8 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .login-box {
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            border-radius: 18px;
+            max-width: 400px;
+            margin: 7rem auto 0 auto;
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-box h2 {
+            color: #FFD700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px #fff700, 0 0 20px #ffd700;
+        }
+        .login-box label {
+            color: #fff;
+            margin-top: 1rem;
+            margin-bottom: 0.3rem;
+            align-self: flex-start;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 0.7rem;
+            font-size: 1rem;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            background: #7b2ff2;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 0.7rem;
+        }
+        .btn-login:hover {
+            background: #f357a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username or Email</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+    </div>
+    <script>
+        // Get stored signup data from localStorage
+        // (Assume signup.html saves username, email, password to localStorage)
+        function getSignupData() {
+            return {
+                username: localStorage.getItem('signupUsername'),
+                email: localStorage.getItem('signupEmail'),
+                password: localStorage.getItem('signupPassword')
+            };
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputUser = document.getElementById('username').value.trim();
+            const inputPass = document.getElementById('password').value;
+
+            const data = getSignupData();
+
+            if (
+                (inputUser === data.username || inputUser === data.email) &&
+                inputPass === data.password
+            ) {
+                alert('Login successful!');
+                window.location.href = 'index.html';
+            } else {
+                alert('Incorrect username/email or password.');
+            }
+        });
+document.querySelector('.btn:nth-child(2)').addEventListener('click', function() {
+    window.location.href = 'login/login.html';
+});document.querySelector('.btn:nth-child(2)').addEventListener('click', function() {
+    window.location.href = 'login/login.html';
+});
+        // Add to signup.html after successful signup
+         localStorage.setItem('signupUsername', document.getElementById('username').value);
+         localStorage.setItem('signupEmail', document.getElementById('email').value);
+         localStorage.setItem('signupPassword', document.getElementById('password').value);
+    </script>
+</body>
+</html>
